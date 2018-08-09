@@ -1,7 +1,7 @@
 {
-    "name": "memory",
+    "name": "nodejs-auth-boilerplate",
     "version": "1.0.0",
-    "description": "New generation social application",
+    "description": "Just another NodeJS boilerplate",
     "scripts": {
         "webpack:source": "webpack --watch --mode=development --config webpack.config.client.js",
         "webpack:server": "webpack --watch --mode=development --config webpack.config.server.js",
