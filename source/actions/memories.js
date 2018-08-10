@@ -24,9 +24,8 @@ export const startAddMemory = (memory) => {
                     _id: memoryId,
                     ...finalMemory
                 }));
-            }).catch((err) => {
-                console.log(err);
-            });
+                return new Promise((resolve) => resolve());
+            })
     };
 };
 
@@ -46,14 +45,21 @@ export const startRemoveMemory = (id) => {
     };
 };
 
-export const editMemory = (id, updates) => ({
+export const editMemory = (_id, updates) => ({
     type: "EDIT_MEMORY",
-    id,
+    _id,
     updates
 });
 
-export const startEditMemory = (memory) => {
-
+export const startEditMemory = (_id, updates) => {
+    return (dispatch, getState) => {
+        return axios.post("/api/edit-memory", { _id, updates })
+            .then((response) => {
+                dispatch(editMemory(_id, updates));
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
 };
 
 export const setMemories = (memories) => ({

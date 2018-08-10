@@ -8,7 +8,8 @@ export class AddMemory extends React.Component {
         super(props);
         this.state = {
             description: "",
-            note: ""
+            note: "",
+            error: null
         };
     };
 
@@ -28,15 +29,21 @@ export class AddMemory extends React.Component {
         const createdAt = Date.now();
         const { description, note } = this.state;
 
-        this.props.startAddMemory({
-            description, createdAt, note
-        });
-        // .then((data) => {
-        //     console.log("THEN", data);
-        // })
-        // .catch((err) => {
-        //     console.log("CATCH", err);
-        // });
+        if (description.length > 0) {
+            this.props.startAddMemory({
+                description, createdAt, note
+            }).then(() => {
+                this.setState(() => ({
+                    description: "",
+                    note: "",
+                    error: null
+                }));
+            }).catch((err) => {
+                this.setState(() => ({ error: err.response.data.message }));
+            });
+        } else {
+            this.setState(() => ({ error: "Please fill out atleast description" }));
+        }
     };
 
     render() {
@@ -45,6 +52,7 @@ export class AddMemory extends React.Component {
                 <form
                     onSubmit={this.onFormSubmit.bind(this)}
                 >
+                    {this.state.error && <p>{this.state.error}</p>}
                     <input
                         type="text"
                         placeholder="Memory description"

@@ -11,7 +11,7 @@ const memoriesReducer = (state = [], action) => {
             return state.filter((memory) => memory._id !== action.id);
         case "EDIT_MEMORY":
             return state.map((memory) => {
-                if (memory.id === action.id) {
+                if (memory._id === action._id) {
                     return {
                         ...memory,
                         ...action.updates

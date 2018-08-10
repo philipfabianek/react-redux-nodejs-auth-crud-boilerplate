@@ -17,13 +17,25 @@ router.post("/get-memories", (req, res) => {
 });
 
 router.post("/add-memory", (req, res) => {
-    new Memory(req.body.memory).save((err, memory) => {
-        if (err) {
-            res.status(400).send({ message: "Something went wrong, this is not your fault" });
-        } else {
-            res.send(memory.id);
-        }
-    })
+    const { userId, description, createdAt, note } = req.body.memory;
+
+    if (
+        userId === req.user.id &&
+        description.length > 0 &&
+        typeof createdAt === "number"
+    ) {
+        console.log("IF");
+        new Memory(req.body.memory).save((err, memory) => {
+            if (err) {
+                res.status(400).send({ message: "Something went wrong, this is not your fault" });
+            } else {
+                res.send(memory.id);
+            }
+        })
+    } else {
+        console.log("ELSE");
+        res.status(400).send({ message: "Something went wrong, this is not your fault" });
+    }
 });
 
 router.post("/remove-memory", (req, res) => {
@@ -39,13 +51,13 @@ router.post("/remove-memory", (req, res) => {
 });
 
 router.post("/edit-memory", (req, res) => {
-    const { id, updates } = req.body;
+    const { _id, updates } = req.body;
 
-    Memory.updateOne({ id }, { ...updates }, (err, memory) => {
+    Memory.updateOne({ _id }, { ...updates }, (err, memory) => {
         if (err) {
             res.status(400).send({ message: "Something went wrong, this is not your fault" });
         } else {
-            res.send(memory);
+            res.send(_id);
         }
     });
 });
