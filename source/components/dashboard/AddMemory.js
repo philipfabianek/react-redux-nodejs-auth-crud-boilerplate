@@ -29,7 +29,11 @@ export class AddMemory extends React.Component {
         const createdAt = Date.now();
         const { description, note } = this.state;
 
-        if (description.length > 0) {
+        if (
+            typeof description === "string" &&
+            typeof note === "string" &&
+            description.length > 0
+        ) {
             this.props.startAddMemory({
                 description, createdAt, note
             }).then(() => {

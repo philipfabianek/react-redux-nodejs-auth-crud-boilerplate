@@ -22,7 +22,11 @@ export class MemoryItem extends React.Component {
             _id.length > 0 &&
             typeof _id === "string"
         ) {
-            this.props.startRemoveMemory(_id);
+            this.props.startRemoveMemory(_id).then(() => {
+                // console.log("SUCCESS");
+            }).catch((err) => {
+                this.setState(() => ({ error: err.response.data.message }));
+            });
         } else {
             this.setState(() => ({ error: "Something went wrong, this is not your fault" }));
         }
@@ -30,25 +34,33 @@ export class MemoryItem extends React.Component {
 
     editMemory() {
         const memory = this.props.memory;
+        const { description, note } = this.state;
 
         const inputs = Array.from(document.getElementsByClassName(`input-${memory._id}`));
         const editButton = document.getElementsByClassName(`button-${memory._id}`)[0];
 
         if (this.state.editing) {
-            this.setState(() => ({ editing: false }));
-            editButton.innerHTML = "EDIT";
+            if (
+                typeof description === "string" &&
+                typeof note === "string" &&
+                description.length > 0
+            ) {
+                const updates = { description, note };
 
-            inputs.map((input) => {
-                input.setAttribute("readonly", true);
-                // input.className = "memory__line__input";
-            });
-
-            const updates = {
-                description: this.state.description,
-                note: this.state.note
-            };
-
-            this.props.startEditMemory(memory._id, updates);
+                this.props.startEditMemory(memory._id, updates).then(() => {
+                    console.log("THEN BABY");
+                    this.setState(() => ({ editing: false, error: null }));
+                    editButton.innerHTML = "EDIT";
+                    inputs.map((input) => {
+                        input.setAttribute("readonly", true);
+                        // input.className = "memory__line__input";
+                    });
+                }).catch((err) => {
+                    console.log("CATCH BABY");
+                });
+            } else {
+                this.setState(() => ({ error: "Please fill out atleast description" }));
+            }
         } else {
             this.setState(() => ({ editing: true }));
             editButton.innerHTML = "CHANGE";

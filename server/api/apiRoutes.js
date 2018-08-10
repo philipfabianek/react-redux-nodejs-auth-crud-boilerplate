@@ -39,6 +39,8 @@ router.post("/add-memory", (req, res) => {
     }
 });
 
+let hello = true;
+
 router.post("/remove-memory", (req, res) => {
     const _id = req.body.id;
 
@@ -66,13 +68,27 @@ router.post("/remove-memory", (req, res) => {
 router.post("/edit-memory", (req, res) => {
     const { _id, updates } = req.body;
 
-    Memory.updateOne({ _id }, { ...updates }, (err, memory) => {
-        if (err) {
-            res.status(400).send({ message: "Something went wrong, this is not your fault" });
-        } else {
-            res.send(_id);
-        }
-    });
+    if (
+        typeof _id === "string" &&
+        typeof updates.description === "string" &&
+        typeof updates.note === "string" &&
+        updates.description.length > 0
+    ) {
+        Memory.findOneAndUpdate({
+            _id,
+            userId: req.user.id
+        }, updates, (err, memory) => {
+            if (err) {
+                res.status(400).send({ message: "Something went wrong, this is not your fault" });
+            } else if (!memory) {
+                res.status(400).send({ message: "Something went wrong, this is not your fault" });
+            } else {
+                res.send(_id);
+            }
+        })
+    } else {
+        res.status(400).send({ message: "Something went wrong, this is not your fault" });
+    }
 });
 
 export default router;

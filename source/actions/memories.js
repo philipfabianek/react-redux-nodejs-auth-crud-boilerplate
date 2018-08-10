@@ -44,7 +44,7 @@ export const startAddMemory = (memory) => {
                     ...finalMemory
                 }));
                 return new Promise((resolve) => resolve());
-            })
+            });
     };
 };
 
@@ -56,11 +56,10 @@ export const removeMemory = (id) => ({
 export const startRemoveMemory = (id) => {
     return (dispatch, getState) => {
         return axios.post("/api/remove-memory", { id })
-        .then((response) => {
-            dispatch(removeMemory(id));
-        }).catch((err) => {
-            console.log(err);
-        });
+            .then((response) => {
+                dispatch(removeMemory(id));
+                return new Promise((resolve) => resolve());
+            });
     };
 };
 
@@ -75,8 +74,7 @@ export const startEditMemory = (_id, updates) => {
         return axios.post("/api/edit-memory", { _id, updates })
             .then((response) => {
                 dispatch(editMemory(_id, updates));
-            }).catch((err) => {
-                console.log(err);
+                return new Promise((resolve) => resolve());
             });
     }
 };
