@@ -16,7 +16,7 @@
         cursor: default;
         display: inline-block;
         font-family: "Lato", sans-serif;
-        font-size: 6rem;
+        font-size: 5.2rem;
         font-weight: 600;
         letter-spacing: 8px;
         line-height: 130%;
@@ -54,7 +54,7 @@
             transition: background-color .3s ease;
             width: 100%;
 
-            &:hover, &:active {
+            &:hover, &:active, &:focus {
                 background-color: $black;
             }
         }
