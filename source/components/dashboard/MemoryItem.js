@@ -17,7 +17,15 @@ export class MemoryItem extends React.Component {
 
     startRemoveMemory() {
         const _id = this.props.memory._id;
-        this.props.startRemoveMemory(_id);
+
+        if (
+            _id.length > 0 &&
+            typeof _id === "string"
+        ) {
+            this.props.startRemoveMemory(_id);
+        } else {
+            this.setState(() => ({ error: "Something went wrong, this is not your fault" }));
+        }
     };
 
     editMemory() {
