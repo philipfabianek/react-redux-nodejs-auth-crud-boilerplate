@@ -85,7 +85,7 @@ router.post("/edit-memory", (req, res) => {
             } else {
                 res.send(_id);
             }
-        })
+        });
     } else {
         res.status(400).send({ message: "Something went wrong, this is not your fault" });
     }

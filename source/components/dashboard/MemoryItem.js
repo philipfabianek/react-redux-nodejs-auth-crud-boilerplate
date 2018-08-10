@@ -48,7 +48,6 @@ export class MemoryItem extends React.Component {
                 const updates = { description, note };
 
                 this.props.startEditMemory(memory._id, updates).then(() => {
-                    console.log("THEN BABY");
                     this.setState(() => ({ editing: false, error: null }));
                     editButton.innerHTML = "EDIT";
                     inputs.map((input) => {
@@ -56,7 +55,7 @@ export class MemoryItem extends React.Component {
                         // input.className = "memory__line__input";
                     });
                 }).catch((err) => {
-                    console.log("CATCH BABY");
+                    this.setState(() => ({ error: "Please fill out atleast description" }));
                 });
             } else {
                 this.setState(() => ({ error: "Please fill out atleast description" }));

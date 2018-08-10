@@ -38,10 +38,7 @@ export class Login extends React.Component {
                 // this.props.history.push("/dashboard");
                 this.props.startSetMemories();
             }).catch((err) => {
-                console.log(err.response);
-                this.setState(() => ({
-                    error: err.response.data.message
-                }));
+                this.setState(() => ({ error: err.response.data.message }));
             });
     };
 
