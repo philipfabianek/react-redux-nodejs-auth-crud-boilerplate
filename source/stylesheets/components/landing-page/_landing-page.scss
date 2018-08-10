@@ -1,0 +1,83 @@
+.landing-page {
+    background-image: url("./../../assets/main--3840x2160.jpg");
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
+    min-width: 100vw;
+    text-align: center;
+
+    &__content {
+        position: absolute;
+        top: 50vh;
+        transform: translateY(-50%);
+        width: 100%;
+
+        h1 {
+            color: $white;
+            cursor: default;
+            display: inline-block;
+            font-family: "Lato", sans-serif;
+            font-size: 6rem;
+            font-weight: 600;
+            letter-spacing: 8px;
+            line-height: 130%;
+            margin: 0 3rem;
+            text-transform: uppercase;
+        }
+
+        a {
+            background-color: $black;
+            color: $white;
+            display: inline-block;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            // margin: 0 4rem;
+            margin-top: 2rem;
+            overflow: hidden;
+            padding: 3rem 4rem;
+            position: relative;
+            text-transform: uppercase;
+            transition: background-color .5s ease, color .5s ease;
+            width: 38.7rem;
+
+            &:hover, &:active {
+                &:before {
+                    top: 100%;
+                }
+            }
+
+            &:before {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 2;
+
+                background-color: $white;
+                color: $black;
+                overflow: hidden;
+                padding: 3rem 4rem;
+                transition: top .25s ease;
+            }
+        }
+
+        &__register {
+            border: 2px solid $white;
+            border-right: none;
+            &:before {
+                border-right: 1px solid $black;
+                content: "REGISTER";
+            }
+        }
+
+        &__login {
+            border: 2px solid $white;
+            border-left: none;
+            &:before {
+                border-left: 1px solid $black;
+                content: "LOGIN";
+            }
+        }
+    }
+}

@@ -1,10 +1,5 @@
 import React from "react";
-
-// import { resetElementObjects, addElement, onScroll } from "./../scrollTransition";
-
-import Navigation from "./../reusable/Navigation";
-
-import Ice from "./../../../assets/ice.jpg";
+import { Link } from "react-router-dom";
 
 export default class LandingPage extends React.Component {
     componentDidMount() {
@@ -14,14 +9,25 @@ export default class LandingPage extends React.Component {
     render() {
         return (
             <div className="landing-page">
-                <Navigation
-                    redirect={this.props.history.push}
-                />
-                <h1>Landing Page</h1>
+                <div className="landing-page__content">
+                    <h1>NODEJS BOILERPLATE</h1>
 
-                {/* <img
-                    src={Ice}
-                /> */}
+                    <div>
+                        <Link
+                            className="landing-page__content__register"
+                            to="/register"
+                        >
+                            REGISTER
+                        </Link>
+
+                        <Link
+                            className="landing-page__content__login"
+                            to="/login"
+                        >
+                            LOGIN
+                        </Link>
+                    </div>
+                </div>
             </div>
         )
     };

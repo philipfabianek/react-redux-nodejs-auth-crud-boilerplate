@@ -46,7 +46,7 @@ export class Login extends React.Component {
         const user = this.state.success;
 
         return (
-            <div>
+            <div className="login">
                 <Navigation
                     redirect={this.props.history.push}
                 />

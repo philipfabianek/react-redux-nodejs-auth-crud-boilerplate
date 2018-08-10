@@ -8,9 +8,14 @@ export default class Register extends React.Component {
         super(props);
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            error: null
         };
     };
+
+    clearError() {
+        this.setState(() => ({ error: null }));
+    }
 
     onUsernameChange(event) {
         const username = event.target.value.toString();
@@ -43,43 +48,56 @@ export default class Register extends React.Component {
     };
 
     render() {
-        return (
-            <div>
-                <Navigation
-                    redirect={this.props.history.push}
-                />
-                <h1>Register</h1>
-                <form
-                    onSubmit={this.onFormSubmit.bind(this)}
-                >
-                    <input
-                        name="username"
-                        placeholder="Username"
-                        type="text"
-
-                        value={this.state.username}
-                        onChange={this.onUsernameChange.bind(this)}
-                    />
-
-                    <input
-                        name="password"
-                        placeholder="Password"
-                        type="password"
-
-                        value={this.state.password}
-                        onChange={this.onPasswordChange.bind(this)}
-                    />
-
-                    <button
-                        type="submit"
-                    >
-                        Register
-                    </button>
-                </form>
-                {
-                    this.state.error &&
-                    <p>{this.state.error}</p>
+        if (typeof document !== "undefined") {
+            document.onkeydown = (event) => {
+                if (event.keyCode == 27) {
+                    this.clearError();
                 }
+            };
+        };
+
+        return (
+            <div className="register">
+                <div className="register__content">
+                    {/* <Navigation
+                        redirect={this.props.history.push}
+                    /> */}
+                    <h1>Register</h1>
+                    <form
+                        onSubmit={this.onFormSubmit.bind(this)}
+                    >
+                        <input
+                            name="username"
+                            placeholder="Username"
+                            type="text"
+
+                            value={this.state.username}
+                            onChange={this.onUsernameChange.bind(this)}
+                        />
+
+                        <input
+                            name="password"
+                            placeholder="Password"
+                            type="password"
+
+                            value={this.state.password}
+                            onChange={this.onPasswordChange.bind(this)}
+                        />
+
+                        <button
+                            type="submit"
+                        >
+                            Register
+                        </button>
+                    </form>
+                </div>
+
+                <p
+                    className={this.state.error ? "register__error register__error--visible" : "register__error"}
+                >
+                    <span onClick={this.clearError.bind(this)}>x</span>
+                    {this.state.error}
+                </p>
             </div>
         );
     };
