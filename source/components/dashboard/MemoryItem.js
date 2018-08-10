@@ -10,7 +10,8 @@ export class MemoryItem extends React.Component {
             editing: false,
 
             description: this.props.memory.description,
-            note: this.props.memory.note
+            note: this.props.memory.note,
+            error: null
         }
     };
 
@@ -74,6 +75,7 @@ export class MemoryItem extends React.Component {
 
         return (
             <li>
+                {this.state.error && <p>{this.state.error}</p>}
                 <div>
                     <p>Description:</p>
                     <input

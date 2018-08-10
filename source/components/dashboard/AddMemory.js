@@ -14,12 +14,12 @@ export class AddMemory extends React.Component {
     };
 
     onDescriptionChange(event) {
-        const description = event.target.value;
+        const description = event.target.value.toString();
         this.setState(() => ({ description }));
     };
 
     onNoteChange(event) {
-        const note = event.target.value;
+        const note = event.target.value.toString();
         this.setState(() => ({ note }));
     };
 

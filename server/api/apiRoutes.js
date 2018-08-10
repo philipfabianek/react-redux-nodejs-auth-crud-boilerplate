@@ -20,9 +20,12 @@ router.post("/add-memory", (req, res) => {
     const { userId, description, createdAt, note } = req.body.memory;
 
     if (
-        userId === req.user.id &&
+        typeof userId === "string" &&
+        typeof description === "string" &&
+        typeof note === "string" &&
+        typeof createdAt === "number" &&
         description.length > 0 &&
-        typeof createdAt === "number"
+        userId === req.user.id
     ) {
         console.log("IF");
         new Memory(req.body.memory).save((err, memory) => {

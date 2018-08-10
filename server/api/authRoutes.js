@@ -11,19 +11,37 @@ import User from "./../mongodb/user-model";
 router.post("/register", (req, res) => {
     const { username, password } = req.body;
 
-    bcrypt.genSalt(10, (err, salt) => {
-        if (err) { console.log(err) }
-
-        bcrypt.hash(password, salt, (err, passwordHash) => {
-            if (err) { console.log(err) }
-            new User({ username, passwordHash }).save().then((user) => {
-                console.log("New user created:", user);
-                res.send("You are registered!");
-            }).catch((err) => {
-                console.log(err);
-                res.status(400).send(err)
-            });
-        });
+    User.find({ username }, (err, users) => {
+        if (users.length === 0) {
+            if (
+                typeof username === "string" &&
+                typeof password === "string" &&
+                username.length > 2 &&
+                password.length > 7
+            ) {
+                bcrypt.genSalt(10, (err, salt) => {
+                    if (err) {
+                        console.log(err) ;
+                        res.status(400).send({ message: "Something went wrong, this is not your fault" });
+                    } else {
+                        bcrypt.hash(password, salt, (err, passwordHash) => {
+                            if (err) { console.log(err) }
+                            new User({ username, passwordHash }).save().then((user) => {
+                                // console.log("New user created:", user);
+                                res.send("You are registered!");
+                            }).catch((err) => {
+                                console.log(err);
+                                res.status(400).send({ message: "Something went wrong, this is not your fault" });
+                            });
+                        });
+                    }
+                });
+            } else {
+                res.status(400).send({ message: "Something went wrong, this is not your fault" });
+            }
+        } else {
+            res.status(400).send({ message: "User with such username already exists, please choose a different one" });
+        }
     });
 });
 

@@ -13,12 +13,12 @@ export default class Register extends React.Component {
     };
 
     onUsernameChange(event) {
-        const username = event.target.value;
+        const username = event.target.value.toString();
         this.setState(() => ({ username }));
     };
 
     onPasswordChange(event) {
-        const password = event.target.value;
+        const password = event.target.value.toString();
         this.setState(() => ({ password }));
     };
 
@@ -27,13 +27,19 @@ export default class Register extends React.Component {
 
         const { username, password } = this.state;
 
-        axios.post("/auth/register", {
-            username, password
-        }).then((info) => {
-            this.props.history.push("/login");
-        }).catch((err) => {
-            console.log(err);
-        });
+        if (username.length < 3) {
+            this.setState(() => ({ error: "Please enter an username with a minumum length of 3" }));
+        } else if (password.length < 8) {
+            this.setState(() => ({ error: "Please enter a password with a minumum length of 8" }));
+        } else {
+            axios.post("/auth/register", {
+                username, password
+            }).then((info) => {
+                this.props.history.push("/login");
+            }).catch((err) => {
+                this.setState(() => ({ error: err.response.data.message }));
+            });
+        }
     };
 
     render() {
@@ -70,6 +76,10 @@ export default class Register extends React.Component {
                         Register
                     </button>
                 </form>
+                {
+                    this.state.error &&
+                    <p>{this.state.error}</p>
+                }
             </div>
         );
     };

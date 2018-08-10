@@ -1,5 +1,24 @@
 import axios from "axios";
 
+export const setMemories = (memories) => ({
+    type: "SET_MEMORIES",
+    memories
+});
+
+export const startSetMemories = () => {
+    return (dispatch, getState) => {
+        const userId = getState().user.id;
+
+        return axios.post("/api/get-memories", { userId })
+            .then((response) => {
+                const memories = response.data.memories;
+                dispatch(setMemories(memories));
+            }).catch((err) => {
+                console.log(err);
+            });
+    };
+};
+
 export const addMemory = (memory) => ({
     type: "ADD_MEMORY",
     memory
@@ -60,23 +79,4 @@ export const startEditMemory = (_id, updates) => {
                 console.log(err);
             });
     }
-};
-
-export const setMemories = (memories) => ({
-    type: "SET_MEMORIES",
-    memories
-});
-
-export const startSetMemories = () => {
-    return (dispatch, getState) => {
-        const userId = getState().user.id;
-
-        return axios.post("/api/get-memories", { userId })
-            .then((response) => {
-                const memories = response.data.memories;
-                dispatch(setMemories(memories));
-            }).catch((err) => {
-                console.log(err);
-            });
-    };
 };
