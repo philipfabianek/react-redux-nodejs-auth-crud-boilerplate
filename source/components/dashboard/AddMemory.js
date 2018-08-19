@@ -50,10 +50,28 @@ export class AddMemory extends React.Component {
         }
     };
 
+    onTestClick() {
+        const first = document.getElementsByClassName("add-memory__test__3")[0];
+        const second = document.getElementsByClassName("add-memory__test__1")[0];
+        const third = document.getElementsByClassName("add-memory__test__2")[0];
+
+        first.classList.add("add-memory__test__3--active");
+        setTimeout(() => {
+            second.classList.add("add-memory__test__1--active");
+            third.classList.add("add-memory__test__2--active");
+        }, 300);
+    };
+
     render() {
         return (
+            // <div className="add-memory__test" onClick={this.onTestClick.bind(this)}>
+            //     <div className="add-memory__test__1"></div>
+            //     <div className="add-memory__test__2"></div>
+            //     <div className="add-memory__test__3"></div>
+            // </div>
             <div>
                 <form
+                    className="add-memory"
                     onSubmit={this.onFormSubmit.bind(this)}
                 >
                     {this.state.error && <p>{this.state.error}</p>}

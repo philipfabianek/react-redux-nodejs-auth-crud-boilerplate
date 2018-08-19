@@ -18,6 +18,10 @@ export class Login extends React.Component {
         };
     };
 
+    clearError() {
+        this.setState(() => ({ error: null }));
+    }
+
     onUsernameChange(event) {
         const username = event.target.value;
         this.setState(() => ({ username }));
@@ -47,41 +51,46 @@ export class Login extends React.Component {
 
         return (
             <div className="login">
-                <Navigation
+                {/* <Navigation
                     redirect={this.props.history.push}
-                />
+                /> */}
+                <div className="login__content">
                 <h1>Login</h1>
-                <form
-                    onSubmit={this.onFormSubmit.bind(this)}
-                >
-                    <input
-                        name="username"
-                        placeholder="Username"
-                        type="text"
-
-                        value={this.state.username}
-                        onChange={this.onUsernameChange.bind(this)}
-                    />
-
-                    <input
-                        name="password"
-                        placeholder="Password"
-                        type="password"
-
-                        value={this.state.password}
-                        onChange={this.onPasswordChange.bind(this)}
-                    />
-
-                    <button
-                        type="submit"
+                    <form
+                        onSubmit={this.onFormSubmit.bind(this)}
                     >
-                        Login
-                    </button>
-                </form>
-                {
-                    this.state.error &&
-                    <p>{this.state.error}</p>
-                }
+                        <input
+                            autoComplete="off"
+                            name="username"
+                            placeholder="Username"
+                            type="text"
+
+                            value={this.state.username}
+                            onChange={this.onUsernameChange.bind(this)}
+                        />
+
+                        <input
+                            name="password"
+                            placeholder="Password"
+                            type="password"
+
+                            value={this.state.password}
+                            onChange={this.onPasswordChange.bind(this)}
+                        />
+
+                        <button
+                            type="submit"
+                        >
+                            Login
+                        </button>
+                    </form>
+                </div>
+                <p
+                    className={this.state.error ? "login__error login__error--visible" : "login__error"}
+                >
+                    <span onClick={this.clearError.bind(this)}>x</span>
+                    {this.state.error}
+                </p>
             </div>
         );
     };

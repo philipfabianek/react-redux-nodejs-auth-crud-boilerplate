@@ -47,7 +47,7 @@ app.use((req, res, next) => {
             res.redirect("/dashboard");
         } else {
             if (req.url === "/dashboard" && !req.user) {
-                res.redirect("/login");
+                res.redirect("/");
             } else {
                 next();
             }

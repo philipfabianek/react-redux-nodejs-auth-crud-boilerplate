@@ -67,6 +67,7 @@ export default class Register extends React.Component {
                         onSubmit={this.onFormSubmit.bind(this)}
                     >
                         <input
+                            autoComplete="off"
                             name="username"
                             placeholder="Username"
                             type="text"
