@@ -12,7 +12,7 @@ export class MemoryList extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="memory-list">
                 {
                     this.props.memories.length > 0 &&
                     <ul>

@@ -1,9 +1,12 @@
 .dashboard {
+    background-color: #e3e3e3;
+    min-height: 100vh;
+    overflow: hidden;
     width: 100vw;
 
     &__header {
         align-items: center;
-        background-color: #000066;
+        background-color: #003;
         box-shadow:
         0px 2px 4px -1px rgba(0, 0, 0, 0.2),
         0px 4px 5px 0px rgba(0, 0, 0, 0.14),
@@ -12,9 +15,10 @@
         flex-direction: row;
         justify-content: space-between;
         padding: 1.2rem 3.2rem 1.2rem 2.2rem;
-        position: fixed;
+        // position: fixed;
         top: 0;
         width: 100%;
+        z-index: -1;
 
         h1 {
             color: $white;
@@ -38,8 +42,12 @@
             text-transform: uppercase;
             transition: .6s ease;
 
-            &:hover, &:active {
+            &:hover {
                 background-color: rgba($white, .15);
+            }
+
+            &:active {
+                background-color: rgba($white, .3);
             }
         }
     }

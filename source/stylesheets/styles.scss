@@ -16,6 +16,7 @@
 
 // Reusable components
 @import "./components/reusable/navigation";
+@import "./components/reusable/special-transition";
 
 // Landing page
 @import "./components/landing-page/landing-page";
@@ -29,3 +30,5 @@
 // Dashboard
 @import "./components/dashboard/dashboard";
 @import "./components/add-memory/add-memory";
+@import "./components/memory-list/memory-list";
+@import "./components/memory-item/memory-item";

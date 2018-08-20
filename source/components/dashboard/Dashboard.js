@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import AddMemory from "./AddMemory";
 import MemoryList from "./MemoryList";
 
+import { specialTransition } from "./../../scripts/specialTransition";
 import { startLogout } from "./../../actions/user";
 
 export class Dashboard extends React.Component {
@@ -13,12 +14,24 @@ export class Dashboard extends React.Component {
         });
     };
 
+    componentDidMount() {
+        setTimeout(() => {
+            const target = document.getElementsByClassName("special-transition")[0];
+            specialTransition(target);
+        }, 50);
+    };
+
     render() {
         const { username, id } = this.props.user;
 
         if (this.props.user) {
             return (
-                <div className="dashboard">
+                <div
+                    className="dashboard special-transition"
+                >
+                    <div className="special-transition__1"></div>
+                    <div className="special-transition__2"></div>
+
                     <div className="dashboard__header">
                         <h1>Dashboard</h1>
                         <button className="dashboard__logout" onClick={this.onLogoutClick.bind(this)}>

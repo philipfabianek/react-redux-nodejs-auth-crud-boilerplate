@@ -10,9 +10,16 @@ export class MemoryItem extends React.Component {
             editing: false,
 
             description: this.props.memory.description,
+            prevDescription: this.props.memory.description,
             note: this.props.memory.note,
+            prevNote: this.props.memory.note,
+
             error: null
         }
+    };
+
+    clearError() {
+        this.setState(() => ({ error: null }));
     };
 
     startRemoveMemory() {
@@ -34,7 +41,7 @@ export class MemoryItem extends React.Component {
 
     editMemory() {
         const memory = this.props.memory;
-        const { description, note } = this.state;
+        const { description, note, prevDescription, prevNote } = this.state;
 
         const inputs = Array.from(document.getElementsByClassName(`input-${memory._id}`));
         const editButton = document.getElementsByClassName(`button-${memory._id}`)[0];
@@ -47,16 +54,28 @@ export class MemoryItem extends React.Component {
             ) {
                 const updates = { description, note };
 
-                this.props.startEditMemory(memory._id, updates).then(() => {
+                if (
+                    description !== prevDescription ||
+                    note !== prevNote
+                ) {
+                    this.props.startEditMemory(memory._id, updates).then(() => {
+                        this.setState(() => ({ editing: false, error: null, prevDescription: description, prevNote: note }));
+                        editButton.innerHTML = "EDIT";
+                        inputs.map((input) => {
+                            input.setAttribute("readonly", true);
+                            input.className = `memory-item__input input-${memory._id}`;
+                        });
+                    }).catch((err) => {
+                        this.setState(() => ({ error: "Please fill out atleast description" }));
+                    });
+                } else {
                     this.setState(() => ({ editing: false, error: null }));
                     editButton.innerHTML = "EDIT";
                     inputs.map((input) => {
                         input.setAttribute("readonly", true);
-                        // input.className = "memory__line__input";
+                        input.className = `memory-item__input input-${memory._id}`;
                     });
-                }).catch((err) => {
-                    this.setState(() => ({ error: "Please fill out atleast description" }));
-                });
+                }
             } else {
                 this.setState(() => ({ error: "Please fill out atleast description" }));
             }
@@ -66,7 +85,7 @@ export class MemoryItem extends React.Component {
 
             inputs.map((input) => {
                 input.removeAttribute("readonly", false);
-                // input.className += " memory__line__input--toggled";
+                input.className += " memory-item__input--editable";
             });
         }
     };
@@ -93,39 +112,47 @@ export class MemoryItem extends React.Component {
         const memory = this.props.memory;
 
         return (
-            <li>
-                {this.state.error && <p>{this.state.error}</p>}
-                <div>
+            <li className="memory-item">
+                <div className="memory-item__description">
                     <p>Description:</p>
                     <input
-                        className={`input-${memory._id}`}
+                        className={`memory-item__input input-${memory._id}`}
                         readOnly
 
                         value={this.state.description}
                         onChange={this.onDescriptionChange.bind(this)}
                     />
                 </div>
-                <div>
+                <div className="memory-item__note">
                     <p>Note:</p>
                     <input
-                        className={`input-${memory._id}`}
+                        className={`memory-item__input input-${memory._id}`}
                         readOnly
 
                         value={this.state.note}
                         onChange={this.onNoteChange.bind(this)}
                     />
                 </div>
-                <button
-                    className={`button-${memory._id}`}
-                    onClick={this.editMemory.bind(this)}
+                <div className="memory-item__buttons">
+                    <button
+                        className={`memory-item__button memory-item__button--edit button-${memory._id}`}
+                        onClick={this.editMemory.bind(this)}
+                    >
+                        EDIT
+                    </button>
+                    <button
+                        className="memory-item__button memory-item__button--delete"
+                        onClick={this.startRemoveMemory.bind(this)}
+                    >
+                        DELETE
+                    </button>
+                </div>
+                <p
+                    className={this.state.error ? "login__error login__error--visible" : "login__error"}
                 >
-                    EDIT
-                </button>
-                <button
-                    onClick={this.startRemoveMemory.bind(this)}
-                >
-                    DELETE
-                </button>
+                    <span onClick={this.clearError.bind(this)}>x</span>
+                    {this.state.error}
+                </p>
             </li>
         );
     };

@@ -1,0 +1,38 @@
+.special-transition {
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    width: 60rem;
+
+    &__1, &__2 {
+        background-color: $white;
+        // background-color: $black;
+        height: 250%;
+        position: absolute;
+        right: 0;
+        width: 250%;
+        z-index: 10;
+
+        &--active {
+            right: 100%;
+            width: 100%;
+            transition: border-radius .8s ease-out, width .8s ease-out, right .8s ease-out;
+        }
+    }
+
+    &__1 {
+        bottom: 50%;
+
+        &--active {
+            border-bottom-right-radius: 100%;
+        }
+    }
+
+    &__2 {
+        top: 50%;
+
+        &--active {
+            border-top-right-radius: 100%;
+        }
+    }
+}
